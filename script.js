@@ -1,4 +1,16 @@
 // ======================================
+// SUPABASE CONNECTION
+// ======================================
+
+const SUPABASE_URL = "https://vbkmxuqntwjaxudlcdis.supabase.co";  
+
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Lz0Jaef9P3BmpYcfVu3z8A_Caaw5FQQ";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+// ======================================
 // BUSINESS CONTACT DETAILS
 // ======================================
 
@@ -141,7 +153,11 @@ bookingForm.insertAdjacentElement("afterend", bookingConfirmation);
 // BOOKING FORM SUBMISSION
 // ======================================
 
-bookingForm.addEventListener("submit", function (event) {
+// ======================================
+// BOOKING FORM SUBMISSION
+// ======================================
+
+bookingForm.addEventListener("submit", async function (event) {
 
     event.preventDefault();
 
@@ -188,10 +204,36 @@ bookingForm.addEventListener("submit", function (event) {
         return;
     }
 
-    // Build WhatsApp message
-    let message = `Hello! I'd like to book an appointment.
+    // Prepare booking information for Supabase
+    const bookingData = {
+        customer_name: name,
+        phone: phone,
+        service: service,
+        appointment_type: type,
+        location: type === "House Call" ? location : null,
+        directions: type === "House Call" ? directions : null,
+        appointment_date: date,
+        appointment_time: time,
+        design_request: design || null
+    };
 
-Customer details 
+    // Open a temporary tab so the browser allows WhatsApp to open later
+    const whatsappWindow = window.open("about:blank", "_blank");
+
+    // Save booking in Supabase
+    try {
+
+        const { error } = await supabaseClient
+    .from("bookings")
+    .insert([bookingData]);
+        if (error) {
+            throw error;
+        }
+
+        // Build WhatsApp message
+        let message = `Hello! I'd like to book an appointment.
+
+Customer details
 
 Name: ${name}
 Phone: ${phone}
@@ -203,39 +245,54 @@ Appointment Type: ${type}
 Preferred Date: ${date}
 Preferred Time: ${time}`;
 
-    // Include house-call location
-    if (type === "House Call") {
-        message += `
+        if (type === "House Call") {
+            message += `
 
 Location details
 
 Area / Estate: ${location}
 
 Additional Directions: ${directions || "I will explain my location over the phone."}`;
-    }
+        }
 
-    // Include preferred nail design
-    if (design) {
-        message += `
+        if (design) {
+            message += `
 
 Preferred Nail Design:
 
 ${design}`;
-    }
+        }
 
-    message += `
+        message += `
 
 Please confirm your availability and the total price.
 
 Thank you!`;
 
-    // Open WhatsApp
-    const whatsappURL =
-        `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(message)}`;
+        // Open WhatsApp
+        const whatsappURL =
+            `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(message)}`;
 
-    window.open(whatsappURL, "_blank", "noopener,noreferrer");
+        if (whatsappWindow) {
+            whatsappWindow.opener = null;
+            whatsappWindow.location.href = whatsappURL;
+        } else {
+            alert("Your booking has been saved, but WhatsApp could not open. Please contact NAILÉ directly.");
+        }
 
-bookingConfirmation.style.display = "block";
+        bookingConfirmation.style.display = "block";
+
+    } catch (error) {
+
+        console.error("Booking error:", error);
+
+        if (whatsappWindow) {
+            whatsappWindow.close();
+        }
+
+        alert("Sorry, we couldn't save your booking. Please try again.");
+
+    }
 
 });
 // ======================================

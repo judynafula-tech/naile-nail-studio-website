@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f3ed;
+    color: #49382e;
+}
+
+/* HEADER */
+
+.admin-header {
+    background: #49382e;
+    color: #fff;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.admin-header h1 {
+    font-family: Georgia, serif;
+    font-size: 36px;
+    letter-spacing: 5px;
+}
+
+.admin-header p {
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-top: 8px;
+}
+
+/* MAIN CONTAINER */
+
+.admin-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* LOGIN SECTION */
+
+.login-section {
+    background: white;
+    max-width: 430px;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.login-section h2 {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.login-section p {
+    color: #81736a;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.login-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.login-section input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 20px;
+    border: 1px solid #dfd2c6;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.login-section button {
+    width: 100%;
+    padding: 14px;
+    background: #49382e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* BOOKINGS SECTION */
+
+.bookings-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.bookings-heading h2 {
+    font-family: Georgia, serif;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.bookings-heading p {
+    color: #81736a;
+    font-size: 14px;
+}
+
+#logoutButton {
+    padding: 12px 22px;
+    background: transparent;
+    border: 1px solid #49382e;
+    color: #49382e;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.booking-summary {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.booking-summary span {
+    color: #81736a;
+    font-size: 14px;
+}
+
+.booking-summary h2 {
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .admin-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .login-section {
+        padding: 25px;
+    }
+
+    .bookings-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .bookings-heading h2 {
+        font-size: 25px;
+    }
+}
+/* BOOKING CARDS */
+
+.booking-card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    border: 1px solid #eadfd5;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+}
+
+.booking-card h3 {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    margin-bottom: 18px;
+    color: #49382e;
+}
+
+.booking-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #66564c;
+    overflow-wrap: anywhere;
+}
+
+.booking-card strong {
+    color: #49382e;
+}
