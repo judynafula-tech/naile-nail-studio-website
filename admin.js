@@ -146,6 +146,7 @@ async function loadBookings() {
 
         addDetail("Phone", booking.phone);
         addDetail("Service", booking.service);
+        addDetail("Nail Technician", booking.nail_technician);
         addDetail("Appointment Type", booking.appointment_type);
         addDetail("Date", booking.appointment_date);
         addDetail("Time", booking.appointment_time);

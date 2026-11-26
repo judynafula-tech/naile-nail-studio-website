@@ -17,6 +17,11 @@ const supabaseClient = window.supabase.createClient(
 const BUSINESS_WHATSAPP = "254783001830";
 const BUSINESS_PHONE = "254783001830";
 
+const TECHNICIAN_WHATSAPP = {
+    "Stella Njeri": "254710958131",
+    "Ann Njeri": "254783001830"
+};
+
 
 // ======================================
 // MOBILE NAVIGATION
@@ -92,20 +97,7 @@ if (callButton) {
 }
 
 
-// ======================================
-// FLOATING WHATSAPP BUTTON
-// ======================================
 
-const floatingWhatsApp = document.getElementById("floatingWhatsApp");
-
-floatingWhatsApp.href =
-    `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(
-        "Hello! I'd like to enquire about your nail services."
-    )}`;
-
-floatingWhatsApp.target = "_blank";
-
-floatingWhatsApp.rel = "noopener";
 // =====================================
 // CONTACT SECTION WHATSAPP BUTTON
 // =====================================
@@ -165,6 +157,7 @@ bookingForm.addEventListener("submit", async function (event) {
     const name = document.getElementById("customerName").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const service = document.getElementById("service").value;
+    const nailTechnician = document.getElementById("nailTechnician").value;
     const type = appointmentType.value;
     const date = dateInput.value;
     const time = document.getElementById("time").value;
@@ -173,10 +166,10 @@ bookingForm.addEventListener("submit", async function (event) {
     const directions = document.getElementById("directions").value.trim();
 
     // Check required fields
-    if (!name || !phone || !service || !type || !date || !time) {
-        alert("Please fill in all the required fields before booking.");
-        return;
-    }
+    if (!name || !phone || !service || !nailTechnician || !type || !date || !time) {
+    alert("Please fill in all the required fields before booking.");
+    return;
+}
 
     // Validate phone number
     const phonePattern = /^[0-9+\s()-]{9,15}$/;
@@ -209,6 +202,7 @@ bookingForm.addEventListener("submit", async function (event) {
         customer_name: name,
         phone: phone,
         service: service,
+        nail_technician: nailTechnician,
         appointment_type: type,
         location: type === "House Call" ? location : null,
         directions: type === "House Call" ? directions : null,
@@ -241,6 +235,7 @@ Phone: ${phone}
 Appointment Details
 
 Service: ${service}
+Nail Technician: ${nailTechnician}
 Appointment Type: ${type}
 Preferred Date: ${date}
 Preferred Time: ${time}`;
@@ -270,9 +265,10 @@ Please confirm your availability and the total price.
 Thank you!`;
 
         // Open WhatsApp
-        const whatsappURL =
-            `https://wa.me/${BUSINESS_WHATSAPP}?text=${encodeURIComponent(message)}`;
+        const selectedWhatsApp = TECHNICIAN_WHATSAPP[nailTechnician];
 
+const whatsappURL =
+    `https://wa.me/${selectedWhatsApp}?text=${encodeURIComponent(message)}`;
         if (whatsappWindow) {
             whatsappWindow.opener = null;
             whatsappWindow.location.href = whatsappURL;
